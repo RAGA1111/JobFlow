@@ -1,4 +1,67 @@
+<<<<<<< HEAD
 venv/
 .env
 __pycache__/
 chroma_db/git
+=======
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Database and data files
+data/*.db
+data/*.pdf
+data/*.sqlite
+*.db
+*.sqlite
+
+# Logs
+*.log
+logs/
+
+# Playwright
+playwright/.cache/
+
+# Railway
+.railway/
+
+# OS
+.DS_Store
+Thumbs.db
+>>>>>>> 72fad7f (Member 1: Backend complete - FastAPI server, database, Twilio integration, resume parser)
