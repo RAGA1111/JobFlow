@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+twilio
+groq
+playwright
+playwright-stealth
+pdfplumber
+sqlalchemy
+python-dotenv
