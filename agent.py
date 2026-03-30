@@ -1,8 +1,25 @@
-<<<<<<< HEAD
+"""
+AI Agent module - Groq LLM integration for job processing.
+
+This module contains:
+- Groq client initialization
+- Profile parsing
+- Job scoring
+- Cover letter generation
+- Auto-apply workflow
+- Job suggestions
+"""
 import os
 import json
+from typing import List, Dict, Any, Optional
+import asyncio
+
 from groq import Groq
 from dotenv import load_dotenv
+
+# Import tracker models
+from tracker import User, store_application
+from config import settings
 
 load_dotenv()
 
@@ -10,10 +27,10 @@ load_dotenv()
 if not os.environ.get("GROQ_API_KEY"):
     print("WARNING: GROQ_API_KEY not found in environment variables. Please add it to your .env file.")
 
-# Time Block 1 (0:00-0:15) - Initialize Groq client
+# Initialize Groq client
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
-# Time Block 2 (0:15-1:00) - Profile Parser
+
 def parse_user_profile(raw_message: str, resume_text: str = "") -> dict:
     """Parses WhatsApp message + Resume text into structured JSON profile."""
     prompt = f"""
@@ -41,7 +58,7 @@ def parse_user_profile(raw_message: str, resume_text: str = "") -> dict:
     
     return json.loads(response.choices[0].message.content)
 
-# Time Block 3 (1:00-1:40) - Job Scorer
+
 def score_job_fit(job: dict, profile: dict) -> dict:
     """Scores a job out of 100 based on the user's profile and returns a JSON dict with score and reason."""
     prompt = f"""
@@ -65,7 +82,7 @@ def score_job_fit(job: dict, profile: dict) -> dict:
     
     return json.loads(response.choices[0].message.content)
 
-# Time Block 4 (1:40-2:10) - Cover Letter Generator
+
 def generate_cover_letter(job: dict, profile: dict) -> str:
     """Generates a <200 word cover letter tailored strictly to the matched job."""
     prompt = f"""
@@ -89,67 +106,28 @@ def generate_cover_letter(job: dict, profile: dict) -> str:
     
     return response.choices[0].message.content.strip()
 
-if __name__ == "__main__":
-    # Test Block 1 API call
-    print("Testing basic Groq inference...")
-    try:
-        test_resp = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
-            messages=[{"role": "user", "content": "Hello, simply reply 'API OK'"}]
-        )
-        print("Response:", test_resp.choices[0].message.content)
-    except Exception as e:
-        print("Groq API error:", e)
-=======
-"""
-AI Agent module - Interface for Member 2 (AI + Scraper Lead).
-
-This module contains the Groq LLM agent loop, job scoring, cover letter generation,
-and integration with the scraper module.
-
-NOTE: This is a placeholder interface. Member 2 will implement the full functionality.
-"""
-from typing import List, Dict, Any, Optional
-import asyncio
-
-# Import tracker models
-from tracker import User, store_application
-from config import settings
-
 
 async def run_auto_apply(phone: str, user: User) -> Dict[str, Any]:
     """
     Run the auto-apply workflow for a user.
-    
-    This function should:
-    1. Scrape jobs from Naukri and Indeed
-    2. Score each job against user profile
-    3. Generate cover letters for high-scoring jobs
-    4. Apply to each job using Playwright
-    5. Store application results in database
     
     Args:
         phone: User's phone number
         user: User object with profile information
     
     Returns:
-        Dictionary with application results:
-        {
-            "total": int,
-            "applied": int,
-            "failed": int,
-            "skipped": int,
-            "captcha_blocked": int,
-            "applications": List[Dict]
-        }
+        Dictionary with application results
     """
-    # TODO: Implement by Member 2
-    # This is a placeholder that returns mock data
-    
-    print(f"[PLACEHOLDER] Running auto-apply for {phone}")
+    print(f"Running auto-apply for {phone}")
     print(f"User: {user.name}, Role: {user.role}, Location: {user.location}")
     
-    # Mock result for testing
+    # TODO: Implement full auto-apply workflow
+    # 1. Scrape jobs from Naukri and Indeed
+    # 2. Score each job against user profile
+    # 3. Generate cover letters for high-scoring jobs
+    # 4. Apply to each job using Playwright
+    # 5. Store application results in database
+    
     return {
         "total": 0,
         "applied": 0,
@@ -169,10 +147,6 @@ async def get_job_suggestions(
     """
     Get job suggestions for immediate response.
     
-    This function should:
-    1. Scrape jobs from job boards
-    2. Return formatted job list
-    
     Args:
         role: Job role to search for
         location: Job location
@@ -182,17 +156,14 @@ async def get_job_suggestions(
     Returns:
         List of job dictionaries
     """
-    # TODO: Implement by Member 2
-    # This is a placeholder that returns empty list
+    print(f"Getting job suggestions for {role} in {location}")
     
-    print(f"[PLACEHOLDER] Getting job suggestions for {role} in {location}")
+    # TODO: Implement job scraping and return results
     
     return []
 
 
 # Tool definitions for Groq agent
-# These will be used by Member 2 to define the agent's capabilities
-
 TOOLS = [
     {
         "name": "parse_user_profile",
@@ -238,4 +209,16 @@ TOOLS = [
         }
     }
 ]
->>>>>>> 72fad7f (Member 1: Backend complete - FastAPI server, database, Twilio integration, resume parser)
+
+
+if __name__ == "__main__":
+    # Test Groq API
+    print("Testing Groq API...")
+    try:
+        test_resp = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[{"role": "user", "content": "Hello, simply reply 'API OK'"}]
+        )
+        print("Response:", test_resp.choices[0].message.content)
+    except Exception as e:
+        print("Groq API error:", e)

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 fastapi
 uvicorn
 twilio
@@ -23,4 +23,3 @@ pydantic-settings==2.1.0
 python-dotenv==1.0.0
 httpx==0.26.0
 aiofiles==23.2.0
->>>>>>> 72fad7f (Member 1: Backend complete - FastAPI server, database, Twilio integration, resume parser)
